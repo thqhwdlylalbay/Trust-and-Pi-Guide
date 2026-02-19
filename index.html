@@ -1,8 +1,8 @@
 <script>
     let allMerchants = [];
 
-    // دالة لتنظيف النص من الهمزات لتسهيل البحث
     function cleanText(text) {
+        if (!text) return "";
         return text.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').toLowerCase().trim();
     }
 
@@ -11,15 +11,11 @@
             const response = await fetch('merchants.json');
             allMerchants = await response.json();
             displayMerchants(allMerchants);
-        } catch (e) { console.log("خطأ في التحميل"); }
+        } catch (e) { console.error("Error loading JSON"); }
     }
 
     function displayMerchants(data) {
         const container = document.getElementById('merchants-container');
-        if (data.length === 0) {
-            container.innerHTML = "<p style='text-align:center; padding:20px;'>لم يتم العثور على نتائج</p>";
-            return;
-        }
         let html = '';
         data.forEach(m => {
             html += `
@@ -31,7 +27,7 @@
                         <p style="color:#666; margin:5px 0;">${m.category}</p>
                         <p style="color:#888; font-size:13px;"><i class="fas fa-map-marker-alt"></i> ${m.location}</p>
                         <div style="color: #ffc107;">★ ★ ★ ★ ★ (${m.rating})</div>
-                        <button onclick="alert('تفاصيل ${m.name} ستتوفر قريباً')" style="width:100%; margin-top:10px; background:var(--main-purple); color:white; border:none; padding:10px; border-radius:8px;">عرض التفاصيل</button>
+                        <button style="width:100%; margin-top:10px; background:var(--main-purple); color:white; border:none; padding:10px; border-radius:8px;">عرض التفاصيل</button>
                     </div>
                 </div>`;
         });
@@ -46,18 +42,5 @@
         );
         displayMerchants(filtered);
     }
-
-    function showTab(tab, btn) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        btn.classList.add('active');
-        if(tab === 'report') {
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('report-section').style.display = 'block';
-        } else {
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('report-section').style.display = 'none';
-            displayMerchants(allMerchants); // الزرار هيعرض كل التجار هنا
-        }
-    }
     window.onload = loadMerchants;
-                </script>
+            </script>
