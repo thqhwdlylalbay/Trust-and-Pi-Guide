@@ -41,11 +41,13 @@
         <h4>⚠️ تعليمات حماية الرواد:</h4>
         <p>بلغ عن أي تاجر لا يلتزم بسعر GCV.</p>
     </div>
+    <button onclick="alert('سيتصل بك فريق الدعم')" style="width:100%; background:var(--main-purple); color:white; border:none; padding:15px; border-radius:10px;">إرسال بلاغ</button>
 </div>
 
 <div class="nav-bottom">
     <button class="nav-item active" onclick="showTab('main', this)"><i class="fas fa-home"></i>الرئيسية</button>
     <button class="nav-item" onclick="showTab('main', this)"><i class="fas fa-store"></i>التجار</button>
+    <button class="nav-item" onclick="window.location.href='staking-calc.html'"><i class="fas fa-calculator"></i>الحاسبة</button>
     <button class="nav-item" onclick="showTab('report', this)"><i class="fas fa-flag"></i>الإبلاغ</button>
 </div>
 
@@ -57,9 +59,7 @@
             const response = await fetch('merchants.json');
             allMerchants = await response.json();
             displayMerchants(allMerchants);
-        } catch (error) {
-            console.error("Error loading JSON");
-        }
+        } catch (error) { console.error("Error"); }
     }
 
     function displayMerchants(data) {
@@ -83,7 +83,7 @@
 
     function filterSearch() {
         const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allMerchants.filter(m => m.name.toLowerCase().includes(query));
+        const filtered = allMerchants.filter(m => m.name.toLowerCase().includes(query) || m.category.toLowerCase().includes(query));
         displayMerchants(filtered);
     }
 
