@@ -9,6 +9,7 @@
         :root { --main-purple: #673ab7; --bg-gray: #f8f9fa; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gray); margin: 0; padding-bottom: 80px; }
         .header { background: white; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .top-nav { display: flex; justify-content: space-around; padding: 10px; background: #eee; font-size: 14px; }
         .search-bar { padding: 15px; }
         .search-bar input { width: 100%; padding: 12px; border-radius: 25px; border: 1px solid #ddd; outline: none; }
         .merchant-card { background: white; margin: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -29,6 +30,13 @@
     <small>Pi Network لخدمة مجتمع</small>
 </div>
 
+<div class="top-nav">
+    <span onclick="alert('اللغة العربية مفعلة')"><i class="fas fa-globe"></i> العربية 🇪🇬</span>
+    <span onclick="filterByEgypt()" style="cursor:pointer; color: var(--main-purple); font-weight:bold;">
+        <i class="fas fa-map-marker-alt"></i> تجار مصر
+    </span>
+</div>
+
 <div id="main-content">
     <div class="search-bar">
         <input type="text" id="searchInput" oninput="filterSearch()" placeholder="🔍 البحث عن تاجر أو منتج...">
@@ -39,9 +47,9 @@
 <div id="report-section">
     <div style="background: #fff3cd; padding: 15px; border-radius: 10px; color: #856404; margin-bottom: 20px;">
         <h4>⚠️ تعليمات حماية الرواد:</h4>
-        <p>بلغ عن أي تاجر لا يلتزم بسعر GCV.</p>
+        <p>بلغ عن أي تاجر لا يلتزم بسعر GCV المتفق عليه.</p>
     </div>
-    <button onclick="alert('سيتصل بك فريق الدعم')" style="width:100%; background:var(--main-purple); color:white; border:none; padding:15px; border-radius:10px;">إرسال بلاغ</button>
+    <button onclick="alert('سيتواصل بك فريق الدعم')" style="width:100%; background:var(--main-purple); color:white; border:none; padding:15px; border-radius:10px; font-weight:bold;">إرسال بلاغ رسمي</button>
 </div>
 
 <div class="nav-bottom">
@@ -54,16 +62,22 @@
 <script>
     let allMerchants = [];
 
+    // تحميل البيانات
     async function loadMerchants() {
         try {
             const response = await fetch('merchants.json');
             allMerchants = await response.json();
             displayMerchants(allMerchants);
-        } catch (error) { console.error("Error"); }
+        } catch (error) { console.error("Error loading data"); }
     }
 
+    // عرض التجار
     function displayMerchants(data) {
         const container = document.getElementById('merchants-container');
+        if (data.length === 0) {
+            container.innerHTML = "<p style='text-align:center; padding:20px;'>عذراً، لا توجد نتائج مطابقة.</p>";
+            return;
+        }
         let html = '';
         data.forEach(m => {
             html += `
@@ -73,28 +87,47 @@
                         <span class="badge">موثوق GCV</span>
                         <h3 style="margin:0;">${m.name}</h3>
                         <p style="color:#666; margin:5px 0;">${m.category}</p>
+                        <p style="color:#888; font-size:13px;"><i class="fas fa-map-marker-alt"></i> ${m.location}</p>
                         <div style="color: #ffc107;">★ ★ ★ ★ ★ (${m.rating})</div>
-                        <button style="width:100%; margin-top:10px; background:var(--main-purple); color:white; border:none; padding:10px; border-radius:8px;">عرض التفاصيل</button>
+                        <button onclick="alert('تفاصيل ${m.name} ستفتح قريباً')" style="width:100%; margin-top:10px; background:var(--main-purple); color:white; border:none; padding:10px; border-radius:8px;">عرض التفاصيل</button>
                     </div>
                 </div>`;
         });
         container.innerHTML = html;
     }
 
+    // وظيفة البحث (شغالة 100%)
     function filterSearch() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allMerchants.filter(m => m.name.toLowerCase().includes(query) || m.category.toLowerCase().includes(query));
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const filtered = allMerchants.filter(m => 
+            m.name.toLowerCase().includes(query) || 
+            m.category.toLowerCase().includes(query)
+        );
         displayMerchants(filtered);
     }
 
+    // وظيفة فلتر مصر (الجديدة)
+    function filterByEgypt() {
+        const egyptMerchants = allMerchants.filter(m => m.location.includes("مصر") || m.location.includes("القاهرة"));
+        displayMerchants(egyptMerchants);
+        alert("تم عرض تجار مصر فقط");
+    }
+
+    // التنقل بين الأزرار
     function showTab(tab, btn) {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('main-content').style.display = tab === 'report' ? 'none' : 'block';
-        document.getElementById('report-section').style.display = tab === 'report' ? 'block' : 'none';
+        if(tab === 'report') {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('report-section').style.display = 'block';
+        } else {
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('report-section').style.display = 'none';
+            displayMerchants(allMerchants);
+        }
     }
 
     window.onload = loadMerchants;
 </script>
 </body>
-</html>
+    </html>
