@@ -1,7 +1,30 @@
 [
-  {"name": "متجر التقنية العربي", "category": "إلكترونيات", "price": "GCV 314,159$"},
-  {"name": "بي جلوبال شوب", "category": "ملابس", "price": "GCV 314,159$"},
-  {"name": "واحة الباي", "category": "عطور", "price": "GCV 314,159$"},
-  {"name": "مركز ثقة للخدمات", "category": "رقمي", "price": "GCV 314,159$"},
-  {"name": "سوق Pi الموحد", "category": "منزلي", "price": "GCV 314,159$"}
+  {
+    "name": "مطعم أم حسن",
+    "category": "مأكولات - GCV 314,159$",
+    "location": "مدينة نصر - القاهرة",
+    "rating": "4.9",
+    "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400"
+  },
+  {
+    "name": "متجر موبايلات العاصمة",
+    "category": "إلكترونيات - GCV 314,159$",
+    "location": "العتبة - القاهرة",
+    "rating": "4.7",
+    "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400"
+  },
+  {
+    "name": "بوتيك الأناقة الموحد",
+    "category": "ملابس - GCV 314,159$",
+    "location": "وسط البلد - القاهرة",
+    "rating": "4.8",
+    "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400"
+  },
+  {
+    "name": "شركة ثقة للخدمات التقنية",
+    "category": "خدمات رقمية - GCV 314,159$",
+    "location": "أونلاين - مصر",
+    "rating": "5.0",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400"
+  }
 ]
