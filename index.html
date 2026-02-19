@@ -17,7 +17,7 @@
         .merchant-info { padding: 15px; text-align: right; }
         .badge { background: #ffc107; color: black; padding: 3px 10px; border-radius: 5px; font-size: 12px; font-weight: bold; float: left; }
         .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; }
-        .nav-item { text-align: center; color: #777; cursor: pointer; flex: 1; border: none; background: none; }
+        .nav-item { text-align: center; color: #777; cursor: pointer; flex: 1; border: none; background: none; outline: none; }
         .nav-item.active { color: var(--main-purple); font-weight: bold; }
         .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
         #report-section { display: none; padding: 20px; text-align: right; }
@@ -37,9 +37,9 @@
 
 <div id="main-content">
     <div class="search-bar">
-        <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="🔍 البحث عن تاجر أو منتج...">
+        <input type="text" id="searchInput" oninput="filterSearch()" placeholder="🔍 البحث عن تاجر أو منتج...">
     </div>
-    <h4 style="margin: 0 20px 10px 0;">أحدث المحلات المضافة (GCV)</h4>
+    <h4 id="list-title" style="margin: 0 20px 10px 0;">أحدث المحلات المضافة (GCV)</h4>
     <div id="merchants-container"></div>
 </div>
 
@@ -48,47 +48,60 @@
         <h4>⚠️ تعليمات حماية الرواد:</h4>
         <p>بلغ عن أي تاجر لا يلتزم بسعر GCV أو يقدم بضاعة رديئة.</p>
     </div>
-    <button onclick="alert('سيتصل بك فريق الدعم')" style="width:100%; background:var(--main-purple); color:white; border:none; padding:15px; border-radius:10px;">إرسال بلاغ</button>
+    <button onclick="alert('سيتصل بك فريق الدعم')" style="width:100%; background:var(--main-purple); color:white; border:none; padding:15px; border-radius:10px; font-weight:bold;">إرسال بلاغ رسمي</button>
 </div>
 
 <div class="nav-bottom">
-    <button class="nav-item active" onclick="showTab('main', this)"><i class="fas fa-home"></i>الرئيسية</button>
-    <button class="nav-item" onclick="showTab('main', this)"><i class="fas fa-store"></i>التجار</button>
+    <button id="btn-home" class="nav-item active" onclick="showTab('main', this)"><i class="fas fa-home"></i>الرئيسية</button>
+    <button id="btn-store" class="nav-item" onclick="showTab('main', this)"><i class="fas fa-store"></i>التجار</button>
     <button class="nav-item" onclick="window.location.href='staking-calc.html'"><i class="fas fa-calculator"></i>الحاسبة</button>
-    <button class="nav-item" onclick="showTab('report', this)"><i class="fas fa-flag"></i>الإبلاغ</button>
+    <button id="btn-report" class="nav-item" onclick="showTab('report', this)"><i class="fas fa-flag"></i>الإبلاغ</button>
 </div>
 
 <script>
     let allMerchants = [];
 
-    // جلب البيانات من ملف JSON
-    fetch('merchants.json').then(r => r.json()).then(data => {
-        allMerchants = data;
-        displayMerchants(allMerchants);
-    });
+    // تحميل البيانات من ملف JSON
+    async function loadMerchants() {
+        try {
+            const response = await fetch('merchants.json');
+            allMerchants = await response.json();
+            displayMerchants(allMerchants);
+        } catch (error) {
+            console.error("خطأ في تحميل البيانات:", error);
+            document.getElementById('merchants-container').innerHTML = "<p style='text-align:center;'>جاري تحميل بيانات التجار...</p>";
+        }
+    }
 
+    // عرض التجار في الصفحة
     function displayMerchants(data) {
+        const container = document.getElementById('merchants-container');
+        if (data.length === 0) {
+            container.innerHTML = "<p style='text-align:center; padding:20px;'>عذراً، لم يتم العثور على نتائج.</p>";
+            return;
+        }
+        
         let html = '';
         data.forEach(m => {
             html += `
                 <div class="merchant-card">
-                    <img src="${m.image}" class="merchant-img">
+                    <img src="${m.image}" class="merchant-img" onerror="this.src='https://via.placeholder.com/400x200?text=Shop+Image'">
                     <div class="merchant-info">
                         <span class="badge">موثوق GCV</span>
                         <h3 style="margin:0;">${m.name}</h3>
                         <p style="color:#666; margin:5px 0;">${m.category}</p>
                         <p style="color:#888; font-size:13px;"><i class="fas fa-map-marker-alt"></i> ${m.location}</p>
                         <div style="color: #ffc107;">★ ★ ★ ★ ☆ (${m.rating})</div>
-                        <button style="width:100%; margin-top:10px; background:var(--main-purple); color:white; border:none; padding:10px; border-radius:8px;">عرض التفاصيل</button>
+                        <button onclick="alert('سيتم فتح تفاصيل ${m.name} قريباً')" style="width:100%; margin-top:10px; background:var(--main-purple); color:white; border:none; padding:10px; border-radius:8px; cursor:pointer;">عرض التفاصيل</button>
                     </div>
                 </div>`;
         });
-        document.getElementById('merchants-container').innerHTML = html;
+        container.innerHTML = html;
     }
 
-    // وظيفة البحث الذكي
+    // وظيفة البحث الحي والمباشر
     function filterSearch() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
         const filtered = allMerchants.filter(m => 
             m.name.toLowerCase().includes(query) || 
             m.category.toLowerCase().includes(query)
@@ -96,12 +109,23 @@
         displayMerchants(filtered);
     }
 
+    // التبديل بين الأقسام (الرئيسية، التجار، الإبلاغ)
     function showTab(tab, btn) {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('main-content').style.display = tab === 'report' ? 'none' : 'block';
-        document.getElementById('report-section').style.display = tab === 'report' ? 'block' : 'none';
+        
+        if(tab === 'report') {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('report-section').style.display = 'block';
+        } else {
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('report-section').style.display = 'none';
+            displayMerchants(allMerchants); // إعادة عرض القائمة كاملة
+        }
     }
+
+    // تشغيل التحميل عند فتح الصفحة
+    window.onload = loadMerchants;
 </script>
 </body>
-            </html>
+    </html>
