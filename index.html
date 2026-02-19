@@ -2,39 +2,39 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Trust and Pi Guide</title>
+    <title>Trust and Pi Guide - الرئيسية</title>
     <style>
         body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
-        .btn { display: inline-block; padding: 12px 24px; background: #673ab7; color: white; text-decoration: none; border-radius: 8px; margin: 15px 0; font-weight: bold; }
+        .main-card { background: white; max-width: 500px; margin: auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn-gold { display: block; background: #673ab7; color: white; padding: 15px; margin: 20px 0; text-decoration: none; border-radius: 10px; font-weight: bold; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; }
-        th { background: #eee; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🛡️ ثقة ودليل الباي</h1>
-        <p>مرحباً بكم في الدليل الرسمي لرواد Pi Network لدعم الأمان وإجماع GCV.</p>
+    <div class="main-card">
+        <h1>🛡️ مشروع ثقة ودليل الباي</h1>
+        <p>مرحباً بك في المنصة الموحدة لدعم الرواد وإجماع GCV مجاناً.</p>
         
-        <a href="staking-calc.html" class="btn">🧮 فتح حاسبة الاستيكينج (مجاناً)</a>
+        <a href="staking-calc.html" class="btn-gold">🧮 الدخول لحاسبة الاستيكينج</a>
         
         <hr>
-        <h3>💎 تجار موثوقين (إجماع GCV)</h3>
-        <div id="merchant-table">جاري تحميل القائمة...</div>
+        <h3>💎 قائمة تجار إجماع GCV</h3>
+        <div id="merchant-list">جاري تحميل البيانات الموثوقة...</div>
     </div>
 
     <script>
+        // سحب البيانات من ملف merchants.json اللي رفعته
         fetch('merchants.json')
             .then(response => response.json())
             .then(data => {
-                let html = '<table><tr><th>التاجر</th><th>الفئة</th><th>السعر</th></tr>';
+                let html = '<table><tr><th>التاجر</th><th>الفئة</th><th>GCV</th></tr>';
                 data.forEach(m => {
                     html += `<tr><td>${m.name}</td><td>${m.category}</td><td>✅</td></tr>`;
                 });
                 html += '</table>';
-                document.getElementById('merchant-table').innerHTML = html;
+                document.getElementById('merchant-list').innerHTML = html;
             });
     </script>
 </body>
-  </html>
+    </html>
