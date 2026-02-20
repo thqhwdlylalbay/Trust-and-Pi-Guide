@@ -1,30 +1,58 @@
 [
   {
     "name": "مطعم أم حسن",
-    "category": "مأكولات - GCV 314,159$",
-    "location": "مدينة نصر - القاهرة",
-    "rating": "4.9",
-    "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400"
+    "category": "مطاعم",
+    "location": "القاهرة، مصر",
+    "status": "موثوق ✅",
+    "pi_price": "حسب الاتفاق"
   },
   {
-    "name": "متجر موبايلات العاصمة",
-    "category": "إلكترونيات - GCV 314,159$",
-    "location": "العتبة - القاهرة",
-    "rating": "4.7",
-    "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400"
+    "name": "مول سلة شوب",
+    "category": "تسوق شامل",
+    "location": "أونلاين - عربي",
+    "status": "موثوق ✅",
+    "pi_price": "متغير"
   },
   {
-    "name": "بوتيك الأناقة الموحد",
-    "category": "ملابس - GCV 314,159$",
-    "location": "وسط البلد - القاهرة",
-    "rating": "4.8",
-    "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400"
+    "name": "جوجو باي ستور",
+    "category": "سلع غذائية",
+    "location": "مصر",
+    "status": "نشط",
+    "pi_price": "3.5 Pi"
   },
   {
-    "name": "شركة ثقة للخدمات التقنية",
-    "category": "خدمات رقمية - GCV 314,159$",
-    "location": "أونلاين - مصر",
-    "rating": "5.0",
-    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400"
+    "name": "PiChainMall",
+    "category": "إلكترونيات وملابس",
+    "location": "عالمي",
+    "status": "رسمي",
+    "pi_price": "أسعار متنوعة"
+  },
+  {
+    "name": "Pi Pay Shop",
+    "category": "سياحة وفنادق",
+    "location": "عالمي",
+    "status": "موثوق",
+    "pi_price": "حجز مباشر"
+  },
+  {
+    "name": "Pikonomi",
+    "category": "متجر منوعات",
+    "location": "تركيا",
+    "status": "نشط",
+    "pi_price": "حسب المنتج"
+  },
+  {
+    "name": "PiToGo",
+    "category": "خدمات سفر",
+    "location": "أونلاين",
+    "status": "قيد التجهيز",
+    "pi_price": "تذكرة طيران"
+  },
+  {
+    "name": "The Pi Lifestyle",
+    "category": "إكسسوارات",
+    "location": "ماليزيا",
+    "status": "موثوق",
+    "pi_price": "أسعار ثابتة"
   }
 ]
