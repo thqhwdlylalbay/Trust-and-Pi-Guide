@@ -17,20 +17,7 @@
         .circle { width: 50px; height: 50px; background: var(--pi-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(107, 56, 175, 0.2); }
         .nav-item span { font-size: 12px; font-weight: bold; color: #666; }
         .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #eee; animation: slideUp 0.4s ease; position: relative; }
-        
-        /* تحديد العلامة الصفراء لتظهر داخل كروت التجار فقط */
-        .card .badge { 
-            position: absolute; 
-            top: 12px; 
-            right: 12px; 
-            background: var(--pi-gold); 
-            padding: 5px 12px; 
-            border-radius: 15px; 
-            font-size: 11px; 
-            font-weight: bold; 
-            z-index: 5;
-        }
-
+        .card .badge { position: absolute; top: 12px; right: 12px; background: var(--pi-gold); padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: bold; z-index: 5; }
         .card-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
         .card-body { padding: 15px; text-align: right; }
         [dir="ltr"] .card-body { text-align: left; }
@@ -45,7 +32,6 @@
     </style>
 </head>
 <body>
-
 <div class="container" id="top">
     <div class="header">
         <div style="display:flex; gap:8px;">
@@ -54,145 +40,19 @@
         </div>
         <div><h2 id="app-title" style="margin:0; color:var(--pi-purple);">ثقة ودليل الباي</h2></div>
     </div>
-
-    <div class="search-area">
-        <span>🔍</span>
-        <input type="text" id="smartSearch" onkeyup="smartFilter()" placeholder="ابحث عن تاجر أو مدينة...">
+    <div class="search-area"><span>🔍</span><input type="text" id="smartSearch" onkeyup="smartFilter()" placeholder="ابحث..."></div>
+        <div class="nav-bar">
+        <div class="nav-item" onclick="goToHome()"><div class="circle">🏠</div><span data-i18n="nav_home">الرئيسية</span></div>
+        <a id="whatsapp-link" href="#" class="nav-item" target="_blank"><div class="circle">➕</div><span data-i18n="nav_add">انضم كتاجر</span></a>
+        <div class="nav-item" onclick="showPage('staking')"><div class="circle">📈</div><span data-i18n="nav_stake">الاستيكنج</span></div>
     </div>
-
-    <div class="nav-bar">
-        <div class="nav-item" onclick="goToHome()">
-            <div class="circle">🏠</div><span data-i18n="nav_home">الرئيسية</span>
-        </div>
-        <a id="whatsapp-link" href="#" class="nav-item" target="_blank">
-            <div class="circle">➕</div><span data-i18n="nav_add">انضم كتاجر</span>
-        </a>
-        <div class="nav-item" onclick="showPage('staking')">
-            <div class="circle">📈</div><span data-i18n="nav_stake">الاستيكنج</span>
-        </div>
-    </div>
-
-    <div id="home-page" class="content-section active">
-        <h3 id="section-title" style="margin-right:10px;">أحدث المحلات الموثوقة</h3>
-        <div id="merchants-list"></div>
-    </div>
-
+    <div id="home-page" class="content-section active"><h3 id="section-title">أحدث المحلات الموثوقة</h3><div id="merchants-list"></div></div>
     <div id="staking-page" class="content-section">
         <div class="form-box">
             <h2 id="st-title">🛡️ حاسبة الاستيكنج</h2>
-            <input type="number" id="stAmount" placeholder="الكمية">
-            <input type="number" id="stPercent" placeholder="الفائدة %">
-            <input type="number" id="stYears" placeholder="السنوات">
-            <button class="main-btn" onclick="runStaking()" id="calc-btn">احسب المكافأة</button>
-            <div id="stResult" style="margin-top:20px; font-weight:bold; color:var(--pi-purple); font-size:18px;"></div>
+            <input type="number" id="stAmount" placeholder="الكمية"><input type="number" id="stPercent" placeholder="الفائدة %"><input type="number" id="stYears" placeholder="السنوات">
+            <button class="main-btn" onclick="runStaking()" id="calc-btn">احسب المكافأة</button><div id="stResult" style="margin-top:20px; font-weight:bold; color:var(--pi-purple);"></div>
         </div>
     </div>
 </div>
-
-<div id="modal" onclick="this.style.display='none'">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h2 id="m-name" style="color:var(--pi-purple);"></h2>
-        <p id="m-desc" style="line-height:1.6; color:#444; margin:15px 0;"></p>
-        <p id="m-loc" style="font-weight:bold; color:#888;"></p>
-        <button class="main-btn" onclick="document.getElementById('modal').style.display='none'">إغلاق</button>
-    </div>
-</div>
-
-<script>
-    const translations = {
-        ar: {
-            title: "ثقة ودليل الباي", h_title: "أحدث المحلات الموثوقة", nav_home: "الرئيسية", nav_add: "انضم كتاجر", nav_stake: "الاستيكنج",
-            search_p: "ابحث عن تاجر أو مدينة...", st_title: "🛡️ حاسبة الاستيكنج", st_amt: "أدخل كمية عملات Pi", st_pct: "نسبة الفائدة السنوية (%)", 
-            st_yrs: "مدة الحجز (بالسنوات)", calc_btn: "احسب المكافأة", res_r: "المكافأة: ", res_t: "الإجمالي: ", dir: "rtl", details_btn: "عرض التفاصيل",
-            wa_msg: "أريد تسجيل متجري في دليل ثقة ودليل الباي"
-        },
-        en: {
-            title: "Trust & Pi Guide", h_title: "Latest Verified Stores", nav_home: "Home", nav_add: "Join as Merchant", nav_stake: "Staking",
-            search_p: "Search for store or city...", st_title: "🛡️ Staking Calculator", st_amt: "Enter Pi amount", st_pct: "Annual Interest (%)", 
-            st_yrs: "Lock duration (Years)", calc_btn: "Calculate Reward", res_r: "Reward: ", res_t: "Total: ", dir: "ltr", details_btn: "View Details",
-            wa_msg: "I want to register my store in Trust & Pi Guide"
-        }
-    };
-
-    const merchants = [
-        { name: "مطعم أم حسن", loc: "مدينة نصر، القاهرة", cat: "مطاعم", desc: "أشهر المطاعم المصرية التقليدية، يقدم وجباته لرواد الشبكة بأسعار مدروسة لدعم التداول المحلي بالعملة.", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400" },
-        { name: "سلة شوب", loc: "أونلاين", cat: "تسوق", desc: "منصة تجارة إلكترونية رائدة تدعم Pi بشكل كامل، توفر كل احتياجات المنزل من إكسسوارات وأجهزة بجودة عالية.", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
-        { name: "PiChainMall", loc: "عالمي", cat: "إلكترونيات", desc: "السوق العالمي الأول لشبكة Pi، يربط آلاف التجار والمشترين لتبادل المنتجات والخدمات عالمياً بكل أمان.", img: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400" }
-    ];
-
-    function showPage(p) {
-        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-        document.getElementById(p + '-page').classList.add('active');
-    }
-
-    function goToHome() { showPage('home'); window.scrollTo(0,0); }
-
-    function setLanguage(lang) {
-        const t = translations[lang];
-        document.documentElement.dir = t.dir;
-        document.documentElement.lang = lang;
-        document.getElementById('app-title').innerText = t.title;
-        document.getElementById('section-title').innerText = t.h_title;
-        document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
-        document.getElementById('smartSearch').placeholder = t.search_p;
-        document.getElementById('st_title').innerText = t.st_title;
-        document.getElementById('stAmount').placeholder = t.st_amt;
-        document.getElementById('stPercent').placeholder = t.st_pct;
-        document.getElementById('stYears').placeholder = t.st_yrs;
-        document.getElementById('calc-btn').innerText = t.calc_btn;
-        
-        const waLink = document.getElementById('whatsapp-link');
-        const myNumber = "201064608699"; 
-        waLink.href = "https://api.whatsapp.com/send?phone=" + myNumber + "&text=" + encodeURIComponent(t.wa_msg);
-        
-        render(merchants);
-    }
-
-    function render(dataList) {
-        const list = document.getElementById('merchants-list');
-        const lang = document.documentElement.lang || 'ar';
-        const btnText = translations[lang].details_btn;
-        list.innerHTML = '';
-        dataList.forEach((m, i) => {
-            list.innerHTML += `
-                <div class="card">
-                    <div class="badge">Verified ✅</div>
-                    <img src="${m.img}" class="card-img">
-                    <div class="card-body">
-                        <h3 style="margin:0; color:var(--pi-purple)">${m.name}</h3>
-                        <p style="color:#666; font-size:13px;">📍 ${m.loc}</p>
-                        <button class="main-btn" onclick="showDetails(${i})">${btnText}</button>
-                    </div>
-                </div>`;
-        });
-    }
-
-    function showDetails(i) {
-        const m = merchants[i];
-        document.getElementById('m-name').innerText = m.name;
-        document.getElementById('m-desc').innerText = m.desc;
-        document.getElementById('m-loc').innerText = "📍 " + m.loc;
-        document.getElementById('modal').style.display = 'flex';
-    }
-
-    function smartFilter() {
-        const q = document.getElementById('smartSearch').value.toLowerCase();
-        const filtered = merchants.filter(m => m.name.toLowerCase().includes(q) || m.loc.toLowerCase().includes(q));
-        render(filtered);
-    }
-
-    function runStaking() {
-        const amt = parseFloat(document.getElementById('stAmount').value);
-        const pct = parseFloat(document.getElementById('stPercent').value);
-        const yrs = parseFloat(document.getElementById('stYears').value);
-        const lang = document.documentElement.lang || 'ar';
-        if(!amt || !pct || !yrs) return;
-        const reward = (amt * (pct/100) * yrs).toFixed(2);
-        const total = (amt + parseFloat(reward)).toFixed(2);
-        document.getElementById('stResult').innerHTML = `${translations[lang].res_r} Pi ${reward}<br>${translations[lang].res_t} Pi ${total}`;
-    }
-
-    window.onload = () => setLanguage('ar');
-</script>
-</body>
-                </html>
+<div id="modal" onclick="this.style.display='none'"><div class="modal-content" onclick="event.stopPropagation()"><h2 id="m-name"></h2><p id="m-desc"></p><p id="m-loc" style="font-weight:bold;"></p><button class="main-btn">إغلاق</button></div></div>
