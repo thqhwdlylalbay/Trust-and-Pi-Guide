@@ -6,53 +6,79 @@
     <title>ثقة ودليل الباي | Trust & Pi Guide</title>
     <style>
         :root { --pi-purple: #6b38af; --pi-gold: #ffc107; --pi-bg: #f9f9f9; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--pi-bg); margin: 0; padding: 15px; color: #333; scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--pi-bg); margin: 0; padding: 15px; color: #333; }
         .container { max-width: 500px; margin: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .lang-btn { border: 1px solid #ddd; padding: 6px 12px; border-radius: 12px; background: white; cursor: pointer; font-weight: bold; font-size: 13px; }
-        .search-area { background: white; border-radius: 25px; padding: 12px 15px; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; position: sticky; top: 10px; z-index: 100; }
-        .search-area input { border: none; outline: none; width: 100%; font-size: 16px; margin: 0 10px; background: transparent; }
-        .nav-bar { display: flex; justify-content: space-around; margin-bottom: 25px; background: white; padding: 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .lang-btn { border: 1px solid #ddd; padding: 6px 12px; border-radius: 12px; background: white; cursor: pointer; font-weight: bold; }
+        .search-area { background: white; border-radius: 25px; padding: 12px 15px; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; }
+        .search-area input { border: none; outline: none; width: 100%; font-size: 16px; margin: 0 10px; }
+        .nav-bar { display: flex; justify-content: space-around; margin-bottom: 25px; background: white; padding: 10px; border-radius: 20px; }
         .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none; color: inherit; }
-        .circle { width: 50px; height: 50px; background: var(--pi-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(107, 56, 175, 0.2); }
-        .nav-item span { font-size: 12px; font-weight: bold; color: #666; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #eee; animation: slideUp 0.4s ease; position: relative; }
+        .circle { width: 50px; height: 50px; background: var(--pi-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; margin-bottom: 5px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; position: relative; border: 1px solid #eee; }
         .card .badge { position: absolute; top: 12px; right: 12px; background: var(--pi-gold); padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: bold; z-index: 5; }
-        .card-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
+        .card-img { width: 100%; height: 160px; object-fit: cover; }
         .card-body { padding: 15px; text-align: right; }
-        [dir="ltr"] .card-body { text-align: left; }
-        .main-btn { background: var(--pi-purple); color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .main-btn { background: var(--pi-purple); color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; }
         .content-section { display: none; }
         .active { display: block; }
-        .form-box { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; }
-        .form-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; text-align: center; font-size: 16px; }
         #modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background:white; padding:25px; border-radius:25px; width:85%; max-width:400px; text-align:center; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-<div class="container" id="top">
+<div class="container">
     <div class="header">
         <div style="display:flex; gap:8px;">
             <button class="lang-btn" onclick="setLanguage('ar')">AR 🇪🇬</button>
             <button class="lang-btn" onclick="setLanguage('en')">EN 🇺🇸</button>
         </div>
-        <div><h2 id="app-title" style="margin:0; color:var(--pi-purple);">ثقة ودليل الباي</h2></div>
+        <h2 id="app-title" style="color:var(--pi-purple); margin:0;">ثقة ودليل الباي</h2>
     </div>
-    <div class="search-area"><span>🔍</span><input type="text" id="smartSearch" onkeyup="smartFilter()" placeholder="ابحث..."></div>
-        <div class="nav-bar">
-        <div class="nav-item" onclick="goToHome()"><div class="circle">🏠</div><span data-i18n="nav_home">الرئيسية</span></div>
-        <a id="whatsapp-link" href="#" class="nav-item" target="_blank"><div class="circle">➕</div><span data-i18n="nav_add">انضم كتاجر</span></a>
-        <div class="nav-item" onclick="showPage('staking')"><div class="circle">📈</div><span data-i18n="nav_stake">الاستيكنج</span></div>
+    <div class="search-area"><span>🔍</span><input type="text" id="smartSearch" onkeyup="smartFilter()" placeholder="ابحث عن تاجر..."></div>
+    <div class="nav-bar">
+        <div class="nav-item" onclick="showPage('home')"><div class="circle">🏠</div><span>الرئيسية</span></div>
+        <a id="whatsapp-link" href="#" class="nav-item" target="_blank"><div class="circle">➕</div><span>انضم كتاجر</span></a>
+        <div class="nav-item" onclick="showPage('staking')"><div class="circle">📈</div><span>الاستيكنج</span></div>
     </div>
-    <div id="home-page" class="content-section active"><h3 id="section-title">أحدث المحلات الموثوقة</h3><div id="merchants-list"></div></div>
+    <div id="home-page" class="content-section active">
+        <h3 id="section-title">أحدث المحلات الموثوقة</h3>
+        <div id="merchants-list"></div>
+    </div>
     <div id="staking-page" class="content-section">
-        <div class="form-box">
-            <h2 id="st-title">🛡️ حاسبة الاستيكنج</h2>
-            <input type="number" id="stAmount" placeholder="الكمية"><input type="number" id="stPercent" placeholder="الفائدة %"><input type="number" id="stYears" placeholder="السنوات">
-            <button class="main-btn" onclick="runStaking()" id="calc-btn">احسب المكافأة</button><div id="stResult" style="margin-top:20px; font-weight:bold; color:var(--pi-purple);"></div>
+        <div style="background:white; padding:20px; border-radius:20px; text-align:center;">
+            <h2>🛡️ حاسبة الاستيكنج</h2>
+            <input type="number" id="stAmount" placeholder="الكمية" style="width:90%; padding:10px; margin:10px; border-radius:10px; border:1px solid #ddd;">
+            <button class="main-btn" onclick="runStaking()">احسب</button>
+            <div id="stResult" style="margin-top:15px; font-weight:bold; color:var(--pi-purple);"></div>
         </div>
     </div>
 </div>
 <div id="modal" onclick="this.style.display='none'"><div class="modal-content" onclick="event.stopPropagation()"><h2 id="m-name"></h2><p id="m-desc"></p><p id="m-loc" style="font-weight:bold;"></p><button class="main-btn">إغلاق</button></div></div>
+<script>
+    const translations = {
+        ar: { title: "ثقة ودليل الباي", h_title: "أحدث المحلات الموثوقة", wa_msg: "أريد تسجيل متجري", details_btn: "التفاصيل" },
+        en: { title: "Trust & Pi Guide", h_title: "Latest Stores", wa_msg: "I want to register", details_btn: "Details" }
+    };
+    const merchants = [
+        { name: "مطعم أم حسن", loc: "مدينة نصر، القاهرة", desc: "مطعم مصري موثوق يدعم الدفع بالباي.", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400" },
+        { name: "سلة شوب", loc: "أونلاين", desc: "متجر إلكتروني يوفر منتجات متنوعة.", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" }
+    ];
+    function showPage(p) { document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); document.getElementById(p + '-page').classList.add('active'); }
+    function setLanguage(lang) {
+        const t = translations[lang]; document.getElementById('app-title').innerText = t.title; document.getElementById('section-title').innerText = t.h_title;
+        document.getElementById('whatsapp-link').href = "https://api.whatsapp.com/send?phone=201064608699&text=" + encodeURIComponent(t.wa_msg);
+        render();
+    }
+    function render() {
+        const list = document.getElementById('merchants-list'); list.innerHTML = '';
+        merchants.forEach((m, i) => {
+            list.innerHTML += `<div class="card"><div class="badge">Verified ✅</div><img src="${m.img}" class="card-img" style="width:100%"><div class="card-body"><h3>${m.name}</h3><p>📍 ${m.loc}</p><button class="main-btn" onclick="showDetails(${i})">عرض التفاصيل</button></div></div>`;
+        });
+    }
+    function showDetails(i) { const m = merchants[i]; document.getElementById('m-name').innerText = m.name; document.getElementById('m-desc').innerText = m.desc; document.getElementById('m-loc').innerText = "📍 " + m.loc; document.getElementById('modal').style.display = 'flex'; }
+    function runStaking() { const amt = document.getElementById('stAmount').value; document.getElementById('stResult').innerText = "المكافأة المتوقعة: " + (amt * 0.1).toFixed(2) + " Pi"; }
+    window.onload = () => setLanguage('ar');
+</script>
+</body>
+            </html>
