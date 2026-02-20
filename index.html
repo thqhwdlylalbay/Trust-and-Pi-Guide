@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -13,21 +13,21 @@
         .search-area { background: white; border-radius: 25px; padding: 12px 15px; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; position: sticky; top: 10px; z-index: 100; }
         .search-area input { border: none; outline: none; width: 100%; font-size: 16px; margin: 0 10px; background: transparent; }
         .nav-bar { display: flex; justify-content: space-around; margin-bottom: 25px; background: white; padding: 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none; color: inherit; }
         .circle { width: 50px; height: 50px; background: var(--pi-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(107, 56, 175, 0.2); }
         .nav-item span { font-size: 12px; font-weight: bold; color: #666; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; position: relative; border: 1px solid #eee; }
-        .badge { position: absolute; top: 12px; right: 12px; background: var(--pi-gold); padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: bold; z-index: 5; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #eee; animation: slideUp 0.4s ease; }
+        .badge { position: absolute; top: 12px; right: 12px; background: var(--pi-gold); padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: bold; }
         .card-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
         .card-body { padding: 15px; text-align: right; }
         [dir="ltr"] .card-body { text-align: left; }
         .main-btn { background: var(--pi-purple); color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .content-section { display: none; animation: slideUp 0.4s ease; }
+        .content-section { display: none; }
         .active { display: block; }
         .form-box { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; }
         .form-box input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 12px; text-align: center; font-size: 16px; }
         #modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background:white; padding:25px; border-radius:25px; width:85%; max-width:400px; text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .modal-content { background:white; padding:25px; border-radius:25px; width:85%; max-width:400px; text-align:center; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -39,7 +39,7 @@
             <button class="lang-btn" onclick="setLanguage('ar')">AR 🇪🇬</button>
             <button class="lang-btn" onclick="setLanguage('en')">EN 🇺🇸</button>
         </div>
-        <div style="text-align:left;"><h2 id="app-title" style="margin:0; color:var(--pi-purple);">ثقة ودليل الباي</h2></div>
+        <div><h2 id="app-title" style="margin:0; color:var(--pi-purple);">ثقة ودليل الباي</h2></div>
     </div>
 
     <div class="search-area">
@@ -47,13 +47,13 @@
         <input type="text" id="smartSearch" onkeyup="smartFilter()" placeholder="ابحث عن تاجر أو مدينة...">
     </div>
 
-<div class="nav-bar">
+    <div class="nav-bar">
         <div class="nav-item" onclick="goToHome()">
             <div class="circle">🏠</div><span data-i18n="nav_home">الرئيسية</span>
         </div>
-        <div class="nav-item" onclick="scrollToMerchants()">
-            <div class="circle">🛒</div><span data-i18n="nav_stores">التجار</span>
-        </div>
+        <a id="whatsapp-link" href="#" class="nav-item" target="_blank">
+            <div class="circle">➕</div><span data-i18n="nav_add">انضم كتاجر</span>
+        </a>
         <div class="nav-item" onclick="showPage('staking')">
             <div class="circle">📈</div><span data-i18n="nav_stake">الاستيكنج</span>
         </div>
@@ -88,29 +88,23 @@
 <script>
     const translations = {
         ar: {
-            title: "ثقة ودليل الباي", h_title: "أحدث المحلات الموثوقة", nav_home: "الرئيسية", nav_stores: "التجار", nav_stake: "الاستيكنج",
+            title: "ثقة ودليل الباي", h_title: "أحدث المحلات الموثوقة", nav_home: "الرئيسية", nav_add: "انضم كتاجر", nav_stake: "الاستيكنج",
             search_p: "ابحث عن تاجر أو مدينة...", st_title: "🛡️ حاسبة الاستيكنج", st_amt: "أدخل كمية عملات Pi", st_pct: "نسبة الفائدة السنوية (%)", 
-            st_yrs: "مدة الحجز (بالسنوات)", calc_btn: "احسب المكافأة", res_r: "المكافأة: ", res_t: "الإجمالي: ", dir: "rtl", details_btn: "عرض التفاصيل"
+            st_yrs: "مدة الحجز (بالسنوات)", calc_btn: "احسب المكافأة", res_r: "المكافأة: ", res_t: "الإجمالي: ", dir: "rtl", details_btn: "عرض التفاصيل",
+            wa_msg: "أريد تسجيل متجري في دليل ثقة ودليل الباي"
         },
         en: {
-            title: "Trust & Pi Guide", h_title: "Latest Verified Stores", nav_home: "Home", nav_stores: "Merchants", nav_stake: "Staking",
+            title: "Trust & Pi Guide", h_title: "Latest Verified Stores", nav_home: "Home", nav_add: "Join as Merchant", nav_stake: "Staking",
             search_p: "Search for store or city...", st_title: "🛡️ Staking Calculator", st_amt: "Enter Pi amount", st_pct: "Annual Interest (%)", 
-            st_yrs: "Lock duration (Years)", calc_btn: "Calculate Reward", res_r: "Reward: ", res_t: "Total: ", dir: "ltr", details_btn: "View Details"
+            st_yrs: "Lock duration (Years)", calc_btn: "Calculate Reward", res_r: "Reward: ", res_t: "Total: ", dir: "ltr", details_btn: "View Details",
+            wa_msg: "I want to register my store in Trust & Pi Guide"
         }
     };
 
     const merchants = [
         { name: "مطعم أم حسن", loc: "مدينة نصر، القاهرة", cat: "مطاعم", desc: "أشهر المطاعم المصرية التقليدية، يقدم وجباته لرواد الشبكة بأسعار مدروسة لدعم التداول المحلي بالعملة.", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400" },
         { name: "سلة شوب", loc: "أونلاين", cat: "تسوق", desc: "منصة تجارة إلكترونية رائدة تدعم Pi بشكل كامل، توفر كل احتياجات المنزل من إكسسوارات وأجهزة بجودة عالية.", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
-        { name: "PiChainMall", loc: "عالمي", cat: "إلكترونيات", desc: "السوق العالمي الأول لشبكة Pi، يربط آلاف التجار والمشترين لتبادل المنتجات والخدمات عالمياً بكل أمان.", img: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400" },
-        { name: "جوجو ستور", loc: "مصر", cat: "مواد غذائية", desc: "متجر موثوق يوفر المواد الغذائية الأساسية والتموينية لرواد الشبكة في مصر بأسعار تنافسية بالباي.", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" },
-        { name: "Pikonomi", loc: "تركيا", cat: "هدايا", desc: "متجر تركي متخصص في الهدايا والتحف، يتيح الشراء المباشر باستخدام رصيد المحفظة مع شحن دولي.", img: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400" },
-
-{ name: "Pi Pay Shop", loc: "عالمي", cat: "سياحة", desc: "بوابتك لحجز الفنادق وتذاكر الطيران، يسعى لتوفير تجربة سفر متكاملة تعتمد كلياً على العملة الرقمية.", img: "https://images.unsplash.com/photo-1436491865332-7a61a109c0f2?w=400" },
-        { name: "The Pi Lifestyle", loc: "ماليزيا", cat: "نمط حياة", desc: "علامة تجارية متخصصة في الملابس والإكسسوارات الفاخرة التي تحمل شعار Pi، تخدم الرواد حول العالم.", img: "https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=400" },
-        { name: "Pimarket.vn", loc: "فيتنام", cat: "موبايلات", desc: "أكبر متجر إلكترونيات في فيتنام يقبل الدفع بالعملة، متخصص في أحدث الهواتف الذكية والأدوات التقنية.", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" },
-        { name: "سوبر ماركت النور", loc: "الإسكندرية، مصر", cat: "تجارة", desc: "خدمة محلية متميزة في الإسكندرية توفر الاحتياجات اليومية للرواد، مع التحقق الفوري من المعاملات.", img: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=400" },
-        { name: "Freelance Designs", loc: "أونلاين", cat: "خدمات", desc: "فريق من المحترفين يقدم خدمات التصميم، البرمجة، وكتابة المحتوى مقابل Pi لدعم بناء النظام البيئي.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" }
+        { name: "PiChainMall", loc: "عالمي", cat: "إلكترونيات", desc: "السوق العالمي الأول لشبكة Pi، يربط آلاف التجار والمشترين لتبادل المنتجات والخدمات عالمياً بكل أمان.", img: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400" }
     ];
 
     function showPage(p) {
@@ -119,11 +113,6 @@
     }
 
     function goToHome() { showPage('home'); window.scrollTo(0,0); }
-
-    function scrollToMerchants() { 
-        showPage('home'); 
-        setTimeout(() => { document.getElementById('merchants-list').scrollIntoView({ behavior: 'smooth' }); }, 100);
-    }
 
     function setLanguage(lang) {
         const t = translations[lang];
@@ -138,23 +127,22 @@
         document.getElementById('stPercent').placeholder = t.st_pct;
         document.getElementById('stYears').placeholder = t.st_yrs;
         document.getElementById('calc-btn').innerText = t.calc_btn;
+        
+        // تم وضع رقمك هنا مباشرة وبالصيغة الصحيحة
+        const waLink = document.getElementById('whatsapp-link');
+        const myNumber = "201064608699"; 
+        waLink.href = "https://api.whatsapp.com/send?phone=" + myNumber + "&text=" + encodeURIComponent(t.wa_msg);
+        
         render(merchants);
-    }
-
-    function cleanText(text) { return text.replace(/[أإآ]/g, 'ا').replace(/[ة]/g, 'ه').toLowerCase(); }
-
-    function smartFilter() {
-        const q = cleanText(document.getElementById('smartSearch').value);
-        const filtered = merchants.filter(m => cleanText(m.name).includes(q) || cleanText(m.loc).includes(q));
-        render(filtered);
     }
 
     function render(dataList) {
         const list = document.getElementById('merchants-list');
-        const btnText = translations[document.documentElement.lang || 'ar'].details_btn;
+        const lang = document.documentElement.lang || 'ar';
+        const btnText = translations[lang].details_btn;
         list.innerHTML = '';
         dataList.forEach((m, i) => {
-            list.innerHTML += 
+            list.innerHTML += `
                 <div class="card">
                     <div class="badge">Verified ✅</div>
                     <img src="${m.img}" class="card-img">
@@ -163,7 +151,7 @@
                         <p style="color:#666; font-size:13px;">📍 ${m.loc}</p>
                         <button class="main-btn" onclick="showDetails(${i})">${btnText}</button>
                     </div>
-                </div>;
+                </div>`;
         });
     }
 
@@ -175,18 +163,24 @@
         document.getElementById('modal').style.display = 'flex';
     }
 
-function runStaking() {
+    function smartFilter() {
+        const q = document.getElementById('smartSearch').value.toLowerCase();
+        const filtered = merchants.filter(m => m.name.toLowerCase().includes(q) || m.loc.toLowerCase().includes(q));
+        render(filtered);
+    }
+
+    function runStaking() {
         const amt = parseFloat(document.getElementById('stAmount').value);
         const pct = parseFloat(document.getElementById('stPercent').value);
         const yrs = parseFloat(document.getElementById('stYears').value);
         const lang = document.documentElement.lang || 'ar';
-        if(!amt  !pct  !yrs) return;
+        if(!amt || !pct || !yrs) return;
         const reward = (amt * (pct/100) * yrs).toFixed(2);
         const total = (amt + parseFloat(reward)).toFixed(2);
-        document.getElementById('stResult').innerHTML = ${translations[lang].res_r} Pi ${reward}<br>${translations[lang].res_t} Pi ${total};
+        document.getElementById('stResult').innerHTML = `${translations[lang].res_r} Pi ${reward}<br>${translations[lang].res_t} Pi ${total}`;
     }
 
     window.onload = () => setLanguage('ar');
 </script>
 </body>
-</html>
+                </html>
