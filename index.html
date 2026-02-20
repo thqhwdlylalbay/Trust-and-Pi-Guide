@@ -21,7 +21,7 @@
         .card-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
         .card-body { padding: 15px; text-align: right; }
         [dir="ltr"] .card-body { text-align: left; }
-        .main-btn { background: var(--pi-purple); color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.3s; }
+        .main-btn { background: var(--pi-purple); color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 15px; }
         .content-section { display: none; animation: slideUp 0.4s ease; }
         .active { display: block; }
         .form-box { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; }
@@ -100,16 +100,16 @@
     };
 
     const merchants = [
-        { name: "مطعم أم حسن", loc: "مدينة نصر، القاهرة", cat: "مطاعم", desc: "أشهر المطاعم المصرية التقليدية، يقدم وجباته لرواد الشبكة بأسعار مدروسة لدعم التداول المحلي بالعملة.", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400" },
-        { name: "سلة شوب", loc: "أونلاين", cat: "تسوق", desc: "منصة تجارة إلكترونية رائدة تدعم Pi بشكل كامل، توفر كل احتياجات المنزل من إكسسوارات وأجهزة بجودة عالية.", img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400" },
-        { name: "PiChainMall", loc: "عالمي", cat: "إلكترونيات", desc: "السوق العالمي الأول لشبكة Pi، يربط آلاف التجار والمشترين لتبادل المنتجات والخدمات عالمياً بكل أمان.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" },
+        { name: "مطعم أم حسن", loc: "مدينة نصر، القاهرة", cat: "مطاعم", desc: "أشهر المطاعم المصرية التقليدية، يقدم وجباته لرواد الشبكة بأسعار مدروسة لدعم التداول المحلي بالعملة.", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400" },
+        { name: "سلة شوب", loc: "أونلاين", cat: "تسوق", desc: "منصة تجارة إلكترونية رائدة تدعم Pi بشكل كامل، توفر كل احتياجات المنزل من إكسسوارات وأجهزة بجودة عالية.", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
+        { name: "PiChainMall", loc: "عالمي", cat: "إلكترونيات", desc: "السوق العالمي الأول لشبكة Pi، يربط آلاف التجار والمشترين لتبادل المنتجات والخدمات عالمياً بكل أمان.", img: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400" },
         { name: "جوجو ستور", loc: "مصر", cat: "مواد غذائية", desc: "متجر موثوق يوفر المواد الغذائية الأساسية والتموينية لرواد الشبكة في مصر بأسعار تنافسية بالباي.", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" },
         { name: "Pikonomi", loc: "تركيا", cat: "هدايا", desc: "متجر تركي متخصص في الهدايا والتحف، يتيح الشراء المباشر باستخدام رصيد المحفظة مع شحن دولي.", img: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400" },
         { name: "Pi Pay Shop", loc: "عالمي", cat: "سياحة", desc: "بوابتك لحجز الفنادق وتذاكر الطيران، يسعى لتوفير تجربة سفر متكاملة تعتمد كلياً على العملة الرقمية.", img: "https://images.unsplash.com/photo-1436491865332-7a61a109c0f2?w=400" },
-        { name: "The Pi Lifestyle", loc: "ماليزيا", cat: "نمط حياة", desc: "علامة تجارية متخصصة في الملابس والإكسسوارات الفاخرة التي تحمل شعار Pi، تخدم الرواد حول العالم.", img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400" },
+        { name: "The Pi Lifestyle", loc: "ماليزيا", cat: "نمط حياة", desc: "علامة تجارية متخصصة في الملابس والإكسسوارات الفاخرة التي تحمل شعار Pi، تخدم الرواد حول العالم.", img: "https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=400" },
         { name: "Pimarket.vn", loc: "فيتنام", cat: "موبايلات", desc: "أكبر متجر إلكترونيات في فيتنام يقبل الدفع بالعملة، متخصص في أحدث الهواتف الذكية والأدوات التقنية.", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" },
-        { name: "سوبر ماركت النور", loc: "الإسكندرية، مصر", cat: "تجارة", desc: "خدمة محلية متميزة في الإسكندرية توفر الاحتياجات اليومية للرواد، مع التحقق الفوري من المعاملات.", img: "https://images.unsplash.com/photo-1578916773565-d7d32e65629e?w=400" },
-        { name: "Freelance Designs", loc: "أونلاين", cat: "خدمات", desc: "فريق من المحترفين يقدم خدمات التصميم، البرمجة، وكتابة المحتوى مقابل Pi لدعم بناء النظام البيئي.", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400" }
+        { name: "سوبر ماركت النور", loc: "الإسكندرية، مصر", cat: "تجارة", desc: "خدمة محلية متميزة في الإسكندرية توفر الاحتياجات اليومية للرواد، مع التحقق الفوري من المعاملات.", img: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=400" },
+        { name: "Freelance Designs", loc: "أونلاين", cat: "خدمات", desc: "فريق من المحترفين يقدم خدمات التصميم، البرمجة، وكتابة المحتوى مقابل Pi لدعم بناء النظام البيئي.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" }
     ];
 
     function showPage(p) {
