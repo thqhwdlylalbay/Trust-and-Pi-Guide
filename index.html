@@ -16,8 +16,21 @@
         .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none; color: inherit; }
         .circle { width: 50px; height: 50px; background: var(--pi-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(107, 56, 175, 0.2); }
         .nav-item span { font-size: 12px; font-weight: bold; color: #666; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #eee; animation: slideUp 0.4s ease; }
-        .badge { position: absolute; top: 12px; right: 12px; background: var(--pi-gold); padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: bold; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #eee; animation: slideUp 0.4s ease; position: relative; }
+        
+        /* تحديد العلامة الصفراء لتظهر داخل كروت التجار فقط */
+        .card .badge { 
+            position: absolute; 
+            top: 12px; 
+            right: 12px; 
+            background: var(--pi-gold); 
+            padding: 5px 12px; 
+            border-radius: 15px; 
+            font-size: 11px; 
+            font-weight: bold; 
+            z-index: 5;
+        }
+
         .card-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
         .card-body { padding: 15px; text-align: right; }
         [dir="ltr"] .card-body { text-align: left; }
@@ -122,13 +135,12 @@
         document.getElementById('section-title').innerText = t.h_title;
         document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
         document.getElementById('smartSearch').placeholder = t.search_p;
-        document.getElementById('st-title').innerText = t.st_title;
+        document.getElementById('st_title').innerText = t.st_title;
         document.getElementById('stAmount').placeholder = t.st_amt;
         document.getElementById('stPercent').placeholder = t.st_pct;
         document.getElementById('stYears').placeholder = t.st_yrs;
         document.getElementById('calc-btn').innerText = t.calc_btn;
         
-        // تم وضع رقمك هنا مباشرة وبالصيغة الصحيحة
         const waLink = document.getElementById('whatsapp-link');
         const myNumber = "201064608699"; 
         waLink.href = "https://api.whatsapp.com/send?phone=" + myNumber + "&text=" + encodeURIComponent(t.wa_msg);
