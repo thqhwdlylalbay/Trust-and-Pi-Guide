@@ -1,0 +1,9 @@
+{
+  "name": "ثقة ودليل الباي",
+  "short_name": "Trust & Pi",
+  "description": "دليل للمحلات الموثوقة التي تقبل عملة Pi",
+  "app_id": "B67f062ec5ffeaac",
+  "start_url": "https://thqhwdlylalbay.github.io/Trust-and-Pi-Guide/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
