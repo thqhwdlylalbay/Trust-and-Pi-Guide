@@ -127,19 +127,22 @@
     function goToHome() { showPage('home'); window.scrollTo(0,0); }
 
     function setLanguage(lang) {
+        document.documentElement.lang = lang; // تحديث لغة المستند
         const t = translations[lang];
         document.getElementById('app-title').innerText = t.title;
         document.getElementById('section-title').innerText = t.h_title;
         document.getElementById('smartSearch').placeholder = t.search_p;
         document.getElementById('whatsapp-link').href = "https://api.whatsapp.com/send?phone=201064608699&text=" + encodeURIComponent(t.wa_msg);
-        render();
+        render(merchants); // تمرير القائمة الأصلية عند تغيير اللغة
     }
 
-    function render() {
+    // تعديل الدالة لتقبل قائمة تجار معينة (للبحث)
+    function render(dataList = merchants) {
         const list = document.getElementById('merchants-list');
-        const lang = document.documentElement.lang || 'ar';
         list.innerHTML = '';
-        merchants.forEach((m, i) => {
+        dataList.forEach((m, i) => {
+            // إيجاد المعرف الأصلي للتاجر في القائمة الأساسية لعرض تفاصيله بدقة
+            const originalIndex = merchants.findIndex(orig => orig.name === m.name);
             list.innerHTML += `
                 <div class="card">
                     <div class="badge">Verified ✅</div>
@@ -147,7 +150,7 @@
                     <div class="card-body">
                         <h3 style="margin:0; color:var(--pi-purple)">${m.name}</h3>
                         <p style="color:#666; font-size:13px;">📍 ${m.loc}</p>
-                        <button class="main-btn" onclick="showDetails(${i})">عرض التفاصيل</button>
+                        <button class="main-btn" onclick="showDetails(${originalIndex})">عرض التفاصيل</button>
                     </div>
                 </div>`;
         });
@@ -163,17 +166,21 @@
 
     function smartFilter() {
         const q = document.getElementById('smartSearch').value.toLowerCase();
-        const filtered = merchants.filter(m => m.name.toLowerCase().includes(q) || m.loc.toLowerCase().includes(q));
-        // ملحوظة: الـ render هنا بيحتاج تعديل بسيط ليدعم الفلترة، بس للتسهيل دلوقتي هيرجع الكل
-        render(); 
+        // فلترة القائمة بناءً على الاسم أو الموقع
+        const filtered = merchants.filter(m => 
+            m.name.toLowerCase().includes(q) || 
+            m.loc.toLowerCase().includes(q)
+        );
+        render(filtered); // عرض النتائج المفلترة فقط
     }
 
     function runStaking() {
         const amt = parseFloat(document.getElementById('stAmount').value);
+        if(!amt) return;
         document.getElementById('stResult').innerText = "المكافأة: " + (amt * 0.1).toFixed(2) + " Pi";
     }
 
     window.onload = () => setLanguage('ar');
 </script>
 </body>
-</html>
+    </html>
